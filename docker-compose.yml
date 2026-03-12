@@ -20,7 +20,7 @@ services:
     container_name: acestep_studio_ui
     ports:
       # Exponemos la web en el puerto 18080 hacia afuera
-      - "18080:80"
+      - "19080:80"
     volumes:
       - ./ui/studio:/usr/share/nginx/html:ro
     depends_on:
