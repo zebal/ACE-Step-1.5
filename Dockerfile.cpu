@@ -1,0 +1,21 @@
+FROM python:3.12-slim
+
+# Instalar dependencias del sistema requeridas (ffmpeg es clave para el audio)
+RUN apt-get update && apt-get install -y git curl ffmpeg && rm -rf /var/lib/apt/lists/*
+
+# Instalar el gestor de paquetes uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:/root/.cargo/bin:${PATH}"
+
+# Copiar el código de tu GitHub al contenedor
+WORKDIR /app
+COPY . /app
+
+# Descargar las dependencias de Python
+RUN uv sync
+
+# Exponer el puerto de la web
+EXPOSE 7860
+
+# Comando para arrancar el programa
+CMD ["uv", "run", "acestep", "--server-name", "0.0.0.0"]
